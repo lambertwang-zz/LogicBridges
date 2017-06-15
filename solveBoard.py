@@ -6,6 +6,9 @@ class Node:
         self.v = val
         self.n = name
 
+def solveTrivialNode(node , nodes , bridges) :
+    print("to be implemented")
+
 def getNeighbors(node , nodes) :
     closest = 99
     neighbors = ['' , '' , '' , '']
