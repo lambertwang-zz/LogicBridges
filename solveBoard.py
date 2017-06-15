@@ -7,6 +7,7 @@ class Node:
         self.n = name
 
 def solveTrivialNode(node , nodes , bridges) :
+    #TODO
     print("to be implemented")
 
 def getNeighbors(node , nodes) :
@@ -54,6 +55,8 @@ def getNeighbors(node , nodes) :
 
     return neighbors
 
+#TODO
+#This is temporary. We should be importing the nodes directly from the webpage.
 nodes = [Node(1,1,2,'A') , Node(5,1,4,'B') , Node(7,1,1,'C') , Node(7,4,2,'D') , Node(1,6,2,'E') , Node(3,6,1,'F') , Node(2,7,2,'G') , Node(5,7,4,'H') , Node(7,7,3,'I')]
 
 for n in nodes :
