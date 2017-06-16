@@ -52,6 +52,7 @@ def solveTrivialNode(node , nodes , bridges) :
 #Returns a list of all the neighboring nodes
 def getNeighbors(node , nodes) :
     closest = 99
+    #Format : [Down , Up , Left , Right]
     neighbors = ['' , '' , '' , '']
     counter = 0
     found = ''
@@ -61,7 +62,7 @@ def getNeighbors(node , nodes) :
             found = n.n
     if closest != 99 :
         neighbors[counter] = found
-        counter = counter + 1
+    counter = counter + 1
 
     closest = 99
     found = ''
@@ -71,7 +72,7 @@ def getNeighbors(node , nodes) :
             found = n.n
     if closest != 99 :
         neighbors[counter] = found
-        counter = counter + 1
+    counter = counter + 1
 
     closest = 99
     found = ''
@@ -81,7 +82,7 @@ def getNeighbors(node , nodes) :
             found = n.n
     if closest != 99 :
         neighbors[counter] = found
-        counter = counter + 1
+    counter = counter + 1
 
     closest = 99
     found = ''
@@ -91,7 +92,7 @@ def getNeighbors(node , nodes) :
             found = n.n
     if closest != 99 :
         neighbors[counter] = found
-        counter = counter + 1
+    counter = counter + 1
 
     return neighbors
 
