@@ -119,7 +119,9 @@ def printBoard(filePath , nodes) :
 #Reads the board from the given file and
 #returns the proper node array
 def readIntoData(filePath) :
-    names = [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,38,39,40]
+    names = []
+    for i in range(5000) :
+        names.append(i)
     f = open(filePath , "r")
     lines = f.readlines()
     y = 1
@@ -156,31 +158,39 @@ def solveTrivialNode(node , nodes) :
                     print("Solving trivial node {}...".format(node.n))
                     formBridge(node , getNode(n , nodes))
                     formBridge(node , getNode(n , nodes))
-        if node.v == 1 and numberNeighbors == 1 :
+                    return 1
+        elif node.v == 1 and numberNeighbors == 1 :
             for n in validNeighbors :
                 if n != '' :
                     print("Solving trivial node {}...".format(node.n))
                     formBridge(node , getNode(n , nodes))
-        if node.v == total :
+                    return 1
+        elif node.v == total :
             for n in validNeighbors :
                 if n != '':
                     if getNodeVal(n , nodes) == 2 and getNodeVal(node.n , nodes) >= 2:
                         print("Solving trivial node {}...".format(node.n))
                         formBridge(node , getNode(n , nodes))
                         formBridge(node , getNode(n , nodes))
+                        return 1
                     else :
                         print("Solving trivial node {}...".format(node.n))
                         formBridge(node , getNode(n , nodes))
-        if node.v == numNeighborBridges(node , nodes) :
+                        return 1
+        elif node.v == numNeighborBridges(node , nodes) :
             for n in validNeighbors :
                 if n != '' :
                     if getNodeVal(n , nodes) >= 2 and getNodeVal(node.n , nodes) >= 2:
                         print("Solving trivial node {}...".format(node.n))
                         formBridge(node , getNode(n , nodes))
                         formBridge(node , getNode(n , nodes))
+                        return 1
                     else :
                         print("Solving trivial node {}...".format(node.n))
                         formBridge(node , getNode(n , nodes))
+                        return 1
+
+    return 0 
 
 
 def numNeighborBridges(node , nodes) :
@@ -194,15 +204,41 @@ def numNeighborBridges(node , nodes) :
                 total = total + 1
     return total
 
-         
+def fancySolve(node , nodes) :         
+    global bridges
+    validNeighbors = getNeighbors(node , nodes)
+    numberNeighbors = numNeighbors(node , nodes)
+    for n in validNeighbors :
+        if n != '' :
+            neighbor = getNode(n , nodes)
+            if numNeighbors(neighbor , nodes) == 2 and neighbor.v >= 3 and node.v >= 1:
+                print("Solving fancy node {}...".format(node.n))
+                formBridge(node , neighbor)
+                return 1
+            elif numNeighbors(neighbor , nodes) == 3 and neighbor.v >= 5 and node.v >= 1 :
+                print("Solving fancy node {}...".format(node.n))
+                formBridge(node , neighbor)
+                return 1
+            elif numNeighbors(neighbor , nodes) == 4 and neighbor.v >= 7 and node.v >= 1:
+                print("Solving fancy node {}...".format(node.n))
+                formBridge(node , neighbor)
+                return 1
+    return 0
 
 def getNodeVal(name , nodes) :
     return getNode(name , nodes).v
 
 def solveBoard(nodes) :
-    for i in range(100) :
+    count = 1
+    while count >= 1 :
+        count = 0
         for n in nodes :
-            solveTrivialNode(n , nodes)
+            count = count + solveTrivialNode(n , nodes)
+        if count == 0 :
+            for n in nodes :
+                count = count + fancySolve(n , nodes)
+                if count > 0 :
+                    break
 
 def getNode(name , nodes) :
     for n in nodes :
@@ -327,7 +363,7 @@ def getNeighbors(node , nodes) :
 
     return neighbors
 
-filePath = 'sample7x7Board.data'
+filePath = 'sample15x15Board.data'
 nodes = readIntoData(filePath)
 for n in nodes :
     print("Neighbors of node {} : ".format(n.n))
