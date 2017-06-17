@@ -1,4 +1,5 @@
 from bs4 import BeautifulSoup
+import time
 import re
 import os
 import urllib3
@@ -42,6 +43,7 @@ except OSError :
 os.system("curl \"www.puzzle-bridges.com/task.php?id=" + ID + "\&size=11\" > Image.png")
 os.system("tesseract -psm 6 --tessdata-dir . Image.png output -l mylang")
 os.system("python3 removeExcess.py")
+time.sleep(0.1)
 
 nodesFile = open("nodes.txt" , "r")
 nodeLines = nodesFile.readlines()
