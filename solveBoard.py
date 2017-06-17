@@ -1,3 +1,7 @@
+import sys
+
+
+
 bridges = []
 
 
@@ -363,7 +367,7 @@ def getNeighbors(node , nodes) :
 
     return neighbors
 
-filePath = 'sample15x15Board.data'
+filePath = sys.argv[1]
 nodes = readIntoData(filePath)
 for n in nodes :
     print("Neighbors of node {} : ".format(n.n))
