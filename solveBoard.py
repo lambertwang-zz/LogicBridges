@@ -1,5 +1,5 @@
 import sys
-
+import time
 
 
 bridges = []
@@ -162,38 +162,50 @@ def solveTrivialNode(node , nodes) :
             for n in validNeighbors :
                 if n != '' :
                     print("Solving trivial node {}...".format(node.n))
-                    formBridge(node , getNode(n , nodes))
-                    formBridge(node , getNode(n , nodes))
+                    neighbor = getNode(n, nodes)
+                    formBridge(node , neighbor)
+                    formBridge(node , neighbor)
+                    solveTrivialNode(neighbor , nodes)
                     return 1
         elif node.v == 1 and numberNeighbors == 1 :
             for n in validNeighbors :
                 if n != '' :
                     print("Solving trivial node {}...".format(node.n))
-                    formBridge(node , getNode(n , nodes))
+                    neighbor = getNode(n , nodes)
+                    formBridge(node , neighbor)
+                    solveTrivialNode(neighbor , nodes)
                     return 1
         elif node.v == total :
             for n in validNeighbors :
                 if n != '':
                     if getNodeVal(n , nodes) == 2 and getNodeVal(node.n , nodes) >= 2:
                         print("Solving trivial node {}...".format(node.n))
-                        formBridge(node , getNode(n , nodes))
-                        formBridge(node , getNode(n , nodes))
+                        neighbor = getNode(n , nodes)
+                        formBridge(node , neighbor)
+                        formBridge(node , neighbor)
+                        solveTrivialNode(neighbor , nodes)
                         return 1
                     else :
                         print("Solving trivial node {}...".format(node.n))
+                        neighbor = getNode(n , nodes)
                         formBridge(node , getNode(n , nodes))
+                        solveTrivialNode(neighbor , nodes)
                         return 1
         elif node.v == numNeighborBridges(node , nodes) :
             for n in validNeighbors :
                 if n != '' :
                     if getNodeVal(n , nodes) >= 2 and getNodeVal(node.n , nodes) >= 2:
                         print("Solving trivial node {}...".format(node.n))
-                        formBridge(node , getNode(n , nodes))
-                        formBridge(node , getNode(n , nodes))
+                        neighbor = getNode(n , nodes)
+                        formBridge(node , neighbor)
+                        formBridge(node , neighbor)
+                        solveTrivialNode(neighbor , nodes)
                         return 1
                     else :
                         print("Solving trivial node {}...".format(node.n))
-                        formBridge(node , getNode(n , nodes))
+                        neighbor = getNode(n , nodes)
+                        formBridge(node , neighbor)
+                        solveTrivialNode(neighbor , nodes)
                         return 1
 
     return 0 
@@ -372,6 +384,7 @@ def getNeighbors(node , nodes) :
 
     return neighbors
 
+startTime = time.time()
 filePath = sys.argv[1]
 nodes = readIntoData(filePath)
 for n in nodes :
@@ -388,4 +401,8 @@ print()
 printUnsolvedBoard(filePath)
 print()
 printBoard(filePath , nodes)
+
+endTime = time.time()
+
+print("Total time : {}".format(endTime - startTime))
 

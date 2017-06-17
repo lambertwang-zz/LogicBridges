@@ -1,10 +1,9 @@
 from bs4 import BeautifulSoup
 import re
 import os
-import time
 import urllib3
 
-startTime = time.time()
+
 
 xPos = []
 yPos = []
@@ -65,6 +64,3 @@ for y in range(25) :
 f.close()
 
 os.system("python3 solveBoard.py board.data")
-endTime = time.time()
-
-print("Total time : {}".format(endTime - startTime))
