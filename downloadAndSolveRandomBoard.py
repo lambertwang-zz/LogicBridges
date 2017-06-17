@@ -57,5 +57,6 @@ for y in range(25) :
         else :
             f.write('x')
     f.write('\n')
+f.close()
 
 os.system("python3 solveBoard.py board.data")

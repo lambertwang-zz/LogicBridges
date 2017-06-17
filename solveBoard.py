@@ -147,6 +147,8 @@ def readIntoData(filePath) :
 
 
 def solveTrivialNode(node , nodes) :
+    if node.v == 0 :
+        return 0
     global bridges
     validNeighbors = getNeighbors(node , nodes)
     numberNeighbors = numNeighbors(node , nodes)
@@ -209,21 +211,24 @@ def numNeighborBridges(node , nodes) :
     return total
 
 def fancySolve(node , nodes) :         
+    if node.v == 0 :
+        return 0
     global bridges
     validNeighbors = getNeighbors(node , nodes)
     numberNeighbors = numNeighbors(node , nodes)
     for n in validNeighbors :
         if n != '' :
             neighbor = getNode(n , nodes)
-            if numNeighbors(neighbor , nodes) == 2 and neighbor.v >= 3 and node.v >= 1:
+            neighborNumber = numNeighbors(neighbor , nodes)
+            if neighborNumber == 2 and neighbor.v >= 3 and node.v >= 1:
                 print("Solving fancy node {}...".format(node.n))
                 formBridge(node , neighbor)
                 return 1
-            elif numNeighbors(neighbor , nodes) == 3 and neighbor.v >= 5 and node.v >= 1 :
+            elif neighborNumber == 3 and neighbor.v >= 5 and node.v >= 1 :
                 print("Solving fancy node {}...".format(node.n))
                 formBridge(node , neighbor)
                 return 1
-            elif numNeighbors(neighbor , nodes) == 4 and neighbor.v >= 7 and node.v >= 1:
+            elif neighborNumber == 4 and neighbor.v >= 7 and node.v >= 1:
                 print("Solving fancy node {}...".format(node.n))
                 formBridge(node , neighbor)
                 return 1
