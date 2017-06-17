@@ -1,4 +1,5 @@
 from bs4 import BeautifulSoup
+import os
 import urllib3
 
 #Get the HTML code
@@ -17,7 +18,16 @@ for line in soup.get_text().split("\n") :
     if line.startswith("25x25") :
         ID = line[-9:].replace(',' , '')
         print("ID : {}".format(ID))
+        response2 = http.request('GET' , "www.puzzle-bridges.com/task.php?id=" + ID + "&size=11")
     elif line.startswith("wall[") :
         print(line)
 
+page_source2 = response2.data
+soup2 = BeautifulSoup(page_source2 , 'html.parser')
+try :
+    os.remove("Image.png")
+except OSError:
+    pass
 
+f = open("Image.png" , "w")
+f.write(soup2.get_text())
