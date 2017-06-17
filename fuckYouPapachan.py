@@ -1,14 +1,14 @@
 from bs4 import BeautifulSoup
+import re
 import os
 import urllib3
+
+xPos = []
+yPos = []
 
 #Get the HTML code
 http = urllib3.PoolManager()
 response = http.request('GET' , 'www.puzzle-bridges.com/?size=11')
-
-#size 11 is a 25x25 hard puzzle, which is what we should be importing, but I have size=0
-#uncommented for now since it's a smaller file to read as that board is only 7x7
-#response = http.request('GET' , 'www.puzzle-bridges.com/?size=11')
 
 page_source = response.data
 
@@ -18,16 +18,44 @@ for line in soup.get_text().split("\n") :
     if line.startswith("25x25") :
         ID = line[-9:].replace(',' , '')
         print("ID : {}".format(ID))
-        response2 = http.request('GET' , "www.puzzle-bridges.com/task.php?id=" + ID + "&size=11")
-    elif line.startswith("wall[") :
+    elif line.find("wall[") != -1 :
         print(line)
+        matches = re.findall(r"\[(\w+)\]" , line)
+        if len(matches) == 2 :
+            print(matches[0])
+            print(matches[1])
+            try :
+                xPos.append(eval(matches[1]))
+                yPos.append(eval(matches[0]))
+            except :
+                pass
 
-page_source2 = response2.data
-soup2 = BeautifulSoup(page_source2 , 'html.parser')
+
 try :
     os.remove("Image.png")
-except OSError:
+    os.remove("board.data")
+except OSError :
     pass
 
-f = open("Image.png" , "w")
-f.write(soup2.get_text())
+os.system("curl \"www.puzzle-bridges.com/task.php?id=" + ID + "\&size=11\" > Image.png")
+os.system("./readImage.sh")
+nodesFile = open("nodes.txt" , "r")
+nodeLines = nodesFile.readlines()
+nodes = []
+for l in nodeLines :
+    for c in l :
+        if c != '\n' :
+            nodes.append(c)
+
+f = open("board.data" , "w")
+count = 0
+for y in range(25) :
+    for x in range(25) :
+        if xPos[count] == x and yPos[count] == y :
+            f.write(nodes[count])
+            count = count + 1
+        else :
+            f.write('x')
+    f.write('\n')
+
+os.system("python3 solveBoard.py board.data")
