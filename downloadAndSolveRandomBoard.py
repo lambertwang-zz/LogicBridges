@@ -1,7 +1,10 @@
 from bs4 import BeautifulSoup
 import re
 import os
+import time
 import urllib3
+
+startTime = time.time()
 
 xPos = []
 yPos = []
@@ -38,7 +41,9 @@ except OSError :
     pass
 
 os.system("curl \"www.puzzle-bridges.com/task.php?id=" + ID + "\&size=11\" > Image.png")
-os.system("./readImage.sh")
+os.system("tesseract -psm 6 --tessdata-dir . Image.png output -l mylang")
+os.system("python3 removeExcess.py")
+
 nodesFile = open("nodes.txt" , "r")
 nodeLines = nodesFile.readlines()
 nodes = []
@@ -60,3 +65,6 @@ for y in range(25) :
 f.close()
 
 os.system("python3 solveBoard.py board.data")
+endTime = time.time()
+
+print("Total time : {}".format(endTime - startTime))
