@@ -206,6 +206,7 @@ def printBoard(filePath , nodes) :
     print("Solved : ")
     print()
     f = open(filePath , "r")
+    solution = ""
     lines = f.readlines()
     y = 1
     x = 1
@@ -215,20 +216,30 @@ def printBoard(filePath , nodes) :
         for c in l :
             if isHorizontalDoubleBridgeAt(x , y , nodes) :
                 lineString = lineString + "═"
+                solution = solution + "="
             elif isDoubleBridgeAt(x , y , nodes) :
                 lineString = lineString + "║"
+                solution = solution + "n"
             elif isHorizontalBridgeAt(x , y , nodes) :
                 lineString = lineString + "─"
+                solution = solution + "-"
             elif isBridgeAt(x , y , nodes) :
                 lineString = lineString + "│"
+                solution = solution + "i"
             elif c != 'x' and c != '\n':
                 lineString = lineString + c
+                solution = solution + "x"
+            elif c!= '\n':
+                lineString = lineString + " "
+                solution = solution + "x"
             else :
                 lineString = lineString + " "
+
                         
             x = x + 1
         print(lineString)
         y = y + 1
+    print(solution)
 
 #Reads the board from the given file and
 #returns the proper node array
