@@ -33,6 +33,35 @@ def isNodeAt(posx , posy , nodes) :
             return True
     return False
 
+def getDoubleBridgeAt(posx , posy , nodes) :
+    global bridges
+    count = 0
+    for b in bridges :
+       val1 = b.n1
+       val2 = b.n2
+       for n in nodes :
+           if n.n == val1 :
+               node1 = n
+           elif n.n == val2 :
+               node2 = n
+
+
+       if node1.x == node2.x :
+           if posx == node1.x :
+               if (posy < node2.y and posy > node1.y) or (posy > node2.y and posy < node1.y) :
+                   if count == 1 :
+                        return b
+                   else :
+                        count = count + 1
+       if node1.y == node2.y :
+           if posy == node1.y :
+               if (posx < node2.x and posx > node1.x) or (posx > node2.x and posx < node1.x) :
+                   if count == 1 :
+                        return b
+                   else :
+                        count = count + 1
+    return False
+
 def isDoubleBridgeAt(posx , posy , nodes) :
     global bridges
     count = 0
@@ -96,6 +125,83 @@ def printUnsolvedBoard(filePath) :
                 lineString = lineString + c
         print(lineString)
 
+def isHorizontalDoubleBridgeAt(x , y , nodes) :
+    global bridges
+    for n in nodes :
+        if x == n.x and y == n.y :
+            return False
+    if isDoubleBridgeAt(x , y , nodes) == False :
+        return False
+
+    b = getDoubleBridgeAt(x , y , nodes)
+    n1 = getNode(b.n1 , nodes)
+    n2 = getNode(b.n2 , nodes)
+    if n1.y == n2.y :
+        return True
+    return False
+
+
+
+def isHorizontalBridgeAt(x , y , nodes) :
+    global bridges
+    for n in nodes :
+        if x == n.x and y == n.y :
+            return False
+    if isBridgeAt(x , y , nodes) == False :
+        return False
+
+    b = getBridgeAt(x , y , nodes)
+    n1 = getNode(b.n1 , nodes)
+    n2 = getNode(b.n2 , nodes)
+    if n1.y == n2.y :
+        return True
+    return False
+    
+    
+def getBridgeAt(posx , posy , nodes) :
+    global bridges
+    for b in bridges :
+       val1 = b.n1
+       val2 = b.n2
+       for n in nodes :
+           if n.n == val1 :
+               node1 = n
+           elif n.n == val2 :
+               node2 = n
+
+       if node1.x == node2.x :
+           if posx == node1.x :
+               if (posy < node2.y and posy > node1.y) or (posy > node2.y and posy < node1.y) :
+                   return b
+       if node1.y == node2.y :
+           if posy == node1.y :
+               if (posx < node2.x and posx > node1.x) or (posx > node2.x and posx < node1.x) :
+                   return b
+    return False
+
+#Returns True if there is a bridge at the given point.
+def isBridgeAt(posx , posy , nodes) :
+    global bridges
+    for b in bridges :
+       val1 = b.n1
+       val2 = b.n2
+       for n in nodes :
+           if n.n == val1 :
+               node1 = n
+           elif n.n == val2 :
+               node2 = n
+
+       if node1.x == node2.x :
+           if posx == node1.x :
+               if (posy < node2.y and posy > node1.y) or (posy > node2.y and posy < node1.y) :
+                   return True
+       if node1.y == node2.y :
+           if posy == node1.y :
+               if (posx < node2.x and posx > node1.x) or (posx > node2.x and posx < node1.x) :
+                   return True
+    return False
+
+
 def printBoard(filePath , nodes) :
     print("Solved : ")
     print()
@@ -104,13 +210,17 @@ def printBoard(filePath , nodes) :
     y = 1
     x = 1
     for l in lines :
-        lineString = ""
+        lineString = "    "
         x = 1
         for c in l :
-            if isDoubleBridgeAt(x , y , nodes) :
-                lineString = lineString + "\""
+            if isHorizontalDoubleBridgeAt(x , y , nodes) :
+                lineString = lineString + "═"
+            elif isDoubleBridgeAt(x , y , nodes) :
+                lineString = lineString + "║"
+            elif isHorizontalBridgeAt(x , y , nodes) :
+                lineString = lineString + "─"
             elif isBridgeAt(x , y , nodes) :
-                lineString = lineString + "\'"
+                lineString = lineString + "│"
             elif c != 'x' and c != '\n':
                 lineString = lineString + c
             else :
@@ -277,27 +387,6 @@ def numNeighbors(node , nodes) :
 
 
 
-#Returns True if there is a bridge at the given point.
-def isBridgeAt(posx , posy , nodes) :
-    global bridges
-    for b in bridges :
-       val1 = b.n1
-       val2 = b.n2
-       for n in nodes :
-           if n.n == val1 :
-               node1 = n
-           elif n.n == val2 :
-               node2 = n
-
-       if node1.x == node2.x :
-           if posx == node1.x :
-               if (posy < node2.y and posy > node1.y) or (posy > node2.y and posy < node1.y) :
-                   return True
-       if node1.y == node2.y :
-           if posy == node1.y :
-               if (posx < node2.x and posx > node1.x) or (posx > node2.x and posx < node1.x) :
-                   return True
-    return False
 
 
 
