@@ -1,9 +1,9 @@
+# -*- coding: utf-8 -*-
+
 import sys
 import time
 
-
 bridges = []
-
 
 class Node:
     def __init__(self, xpos, ypos, val, name):
@@ -17,7 +17,6 @@ class Bridge:
     def __init__(self, node1Name , node2Name):
         self.n1 = node1Name
         self.n2 = node2Name
-
 
 #Returns True if the two nodes are connected
 def isBridge(name1 , name2) :
@@ -156,8 +155,8 @@ def isHorizontalBridgeAt(x , y , nodes) :
     if n1.y == n2.y :
         return True
     return False
-    
-    
+
+
 def getBridgeAt(posx , posy , nodes) :
     global bridges
     for b in bridges :
@@ -215,7 +214,7 @@ def printBoard(filePath , nodes) :
         x = 1
         for c in l :
             if isHorizontalDoubleBridgeAt(x , y , nodes) :
-                lineString = lineString + "═"
+                lineString = lineString + '='
                 solution = solution + "="
             elif isDoubleBridgeAt(x , y , nodes) :
                 lineString = lineString + "║"
@@ -235,7 +234,7 @@ def printBoard(filePath , nodes) :
             else :
                 lineString = lineString + " "
 
-                        
+
             x = x + 1
         print(lineString)
         y = y + 1
@@ -277,7 +276,7 @@ def solveTrivialNode(node , nodes) :
     for n in validNeighbors :
         if n != '' :
             total = total + getNodeVal(n , nodes)
-            
+
     if numberNeighbors != 0 :
         if node.v/numberNeighbors == 2 :
             for n in validNeighbors :
@@ -329,7 +328,7 @@ def solveTrivialNode(node , nodes) :
                         solveTrivialNode(neighbor , nodes)
                         return 1
 
-    return 0 
+    return 0
 
 
 def numNeighborBridges(node , nodes) :
@@ -343,7 +342,7 @@ def numNeighborBridges(node , nodes) :
                 total = total + 1
     return total
 
-def fancySolve(node , nodes) :         
+def fancySolve(node , nodes) :
     if node.v == 0 :
         return 0
     global bridges
@@ -394,12 +393,6 @@ def numNeighbors(node , nodes) :
         if i != '' :
             count = count + 1
     return count
-
-
-
-
-
-
 
 #Returns a list of all the neighboring nodes
 def getNeighbors(node , nodes) :
@@ -484,25 +477,25 @@ def getNeighbors(node , nodes) :
 
     return neighbors
 
-startTime = time.time()
-filePath = sys.argv[1]
-nodes = readIntoData(filePath)
-for n in nodes :
-    print("Neighbors of node {} : ".format(n.n))
-    print(getNeighbors(n , nodes))
-    print("Number : {}".format(numNeighbors(n , nodes)))
+if __name__ == '__main__':
+    startTime = time.time()
+    filePath = sys.argv[1]
+    nodes = readIntoData(filePath)
+    for n in nodes :
+        print("Neighbors of node {} : ".format(n.n))
+        print(getNeighbors(n , nodes))
+        print("Number : {}".format(numNeighbors(n , nodes)))
 
-solveBoard(nodes)
+    solveBoard(nodes)
 
-for b in bridges :
-    print("Bridge : {} to {}".format(b.n1 , b.n2))
+    for b in bridges :
+        print("Bridge : {} to {}".format(b.n1 , b.n2))
 
-print()
-printUnsolvedBoard(filePath)
-print()
-printBoard(filePath , nodes)
+    print()
+    printUnsolvedBoard(filePath)
+    print()
+    printBoard(filePath , nodes)
 
-endTime = time.time()
+    endTime = time.time()
 
-print("Total time : {}".format(endTime - startTime))
-
+    print("Total time : {}".format(endTime - startTime))

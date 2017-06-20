@@ -5,9 +5,7 @@ import os
 import sys
 import urllib3
 
-
 bridges = []
-
 
 class Node:
     def __init__(self, xpos, ypos, val, name):
@@ -160,8 +158,8 @@ def isHorizontalBridgeAt(x , y , nodes) :
     if n1.y == n2.y :
         return True
     return False
-    
-    
+
+
 def getBridgeAt(posx , posy , nodes) :
     global bridges
     for b in bridges :
@@ -239,7 +237,7 @@ def printBoard(filePath , nodes) :
             else :
                 lineString = lineString + " "
 
-                        
+
             x = x + 1
         print(lineString)
         y = y + 1
@@ -282,7 +280,7 @@ def solveTrivialNode(node , nodes) :
     for n in validNeighbors :
         if n != '' :
             total = total + getNodeVal(n , nodes)
-            
+
     if numberNeighbors != 0 :
         if node.v/numberNeighbors == 2 :
             for n in validNeighbors :
@@ -334,7 +332,7 @@ def solveTrivialNode(node , nodes) :
                         solveTrivialNode(neighbor , nodes)
                         return 1
 
-    return 0 
+    return 0
 
 
 def numNeighborBridges(node , nodes) :
@@ -348,7 +346,7 @@ def numNeighborBridges(node , nodes) :
                 total = total + 1
     return total
 
-def fancySolve(node , nodes) :         
+def fancySolve(node , nodes) :
     if node.v == 0 :
         return 0
     global bridges
